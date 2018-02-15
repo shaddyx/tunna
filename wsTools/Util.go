@@ -2,6 +2,15 @@ package wsTools
 
 import "fmt"
 
+type WsMessage struct {
+	EventName *string
+	Message   *[]byte
+}
+
+const (
+	IntSize = 8
+)
+
 type Error struct{
 	Err string
 	error
