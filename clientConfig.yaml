@@ -1,0 +1,13 @@
+interface:
+    name: VirtualNet
+server:
+    host: localhost
+    port: 8000
+
+
+#Interface:
+#    Name: VirtualNet
+#Server:
+#    Host: localhost
+#    Port: 8000
+
