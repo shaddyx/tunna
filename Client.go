@@ -61,7 +61,7 @@ func InitClient () error {
 	wsClient.Join(Room)
 	log.Println("adding listener...")
 	wsClient.On(DataEvent, func(c *gosocketio.Channel, msg DataGram) string {
-		return "OK"
+		return "Received datagram"
 	})
 
 	var frame ethernet.Frame
@@ -75,6 +75,7 @@ func InitClient () error {
 		frame = frame[:n]
 		log.Printf("Dst: %s\n", frame.Destination() )
 		log.Printf("Src: %s\n", frame.Source() )
+		wsClient.BroadcastTo(Room, DataEvent, DataGram{frame})
 		//log.Printf("Ethertype: % x\n", frame.Ethertype())
 		//log.Printf("Payload: % x\n", frame.Payload())
 	}

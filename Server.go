@@ -21,6 +21,7 @@ func InitServer() error{
 
 	server.On(DataEvent, func(c *gosocketio.Channel, msg DataGram) string {
 		c.BroadcastTo(Room, DataEvent, msg)
+		log.Println("Server received datagram")
 		return "OK"
 	})
 
