@@ -5,6 +5,8 @@ import (
 	"log"
 	"io/ioutil"
 	"gopkg.in/yaml.v2"
+	"github.com/graarh/golang-socketio"
+	"github.com/graarh/golang-socketio/transport"
 )
 
 
@@ -14,7 +16,7 @@ type ClientConfig struct {
 	}
 	Server struct {
 		Host string
-		Port string
+		Port int
 	}
 }
 
@@ -32,6 +34,17 @@ func LoadClientConfig () (*ClientConfig, error){
 	return conf, nil
 }
 
+func initWsClient(conf ClientConfig) (*gosocketio.Client, error){
+	c, err := gosocketio.Dial(
+		gosocketio.GetUrl(conf.Server.Host, conf.Server.Port, false),
+		transport.GetDefaultWebsocketTransport(),
+	)
+	if err != nil{
+		return nil, err
+	}
+	return c, nil
+}
+
 
 func InitClient () error {
 	clientConfig, err := LoadClientConfig()
@@ -39,6 +52,17 @@ func InitClient () error {
 		return err
 	}
 	ifce := InitIface(clientConfig.Interface.Name)
+	log.Println("Connecting to websocket server...")
+	wsClient, err:= initWsClient(*clientConfig)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println("Joining room...")
+	wsClient.Join(Room)
+	log.Println("adding listener...")
+	wsClient.On(DataEvent, func(c *gosocketio.Channel, msg DataGram) string {
+		return "OK"
+	})
 
 	var frame ethernet.Frame
 
