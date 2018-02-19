@@ -10,6 +10,7 @@ func main() {
 	flag.Parse()
 	if *serverMode {
 		fmt.Println("Server mode")
+		InitServer()
 	} else {
 		err := InitClient()
 		if err != nil {

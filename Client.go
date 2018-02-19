@@ -3,12 +3,8 @@ package main
 import (
 	"github.com/songgao/packets/ethernet"
 	"log"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
-)
-
-const (
-	clientConfigFile = "clientConfig.yaml"
+	"gopkg.in/yaml.v2"
 )
 
 
